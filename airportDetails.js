@@ -1,5 +1,10 @@
 const airports = require("./airport/airports.json")
+
+const isAlpha = str => /^[a-zA-Z]*$/.test(str);
 exports.airportInfo = (airportCode) =>{
+    if(typeof(airportCode)!='string' || airportCode.length !== 3){
+        throw new Error("Invalid Airport Code")
+    }
     let airportDetails =[];
     airports.map(airport =>{
         if(airport.code === airportCode){
