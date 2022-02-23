@@ -1,19 +1,18 @@
 const airports = require("./airport/airports.json")
 
-const isAlpha = str => /^[a-zA-Z]*$/.test(str);
 exports.airportInfo = (airportCode) =>{
     if(typeof(airportCode)!='string' || airportCode.length !== 3){
-        throw new Error("Invalid Airport Code")
+        return "Invalid Airport Code"
     }
-    let airportDetails =[];
-    airports.map(airport =>{
-        if(airport.code === airportCode){
-            airportDetails.push(airport.name)
-            airportDetails.push(airport.city)
-            airportDetails.push(airport.country)
+    var airportDetails = airports.reduce(function(obj, curr){
+        if (curr.code === airportCode.toUpperCase()) {
+            obj["name"] = curr.name
+            obj["city"] = curr.city
+            obj["country"] = curr.country
         }
-    })
+        if(obj.length ===0) return "Airport not found"
+        return obj;
+    }, {});
+    if(Object.keys(airportDetails).length===0) return "Airport not found"
     return airportDetails;
 };
-
-// console.log(module)
